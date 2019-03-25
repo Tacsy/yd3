@@ -1,0 +1,10 @@
+# python 
+*.pyc
+
+# packages
+*.egg
+*.egg-info
+
+# vscode
+.vscode
+.vscode/*
