@@ -16,4 +16,9 @@ setup(
     keywords = ['dictionary', 'chinese', 'command line'],    
     license = 'MIT',
     install_requires = ['termcolor']
+    entry_points={
+        'console_scripts':[
+                'yd3 = yd3.yd3:main'
+            ]
+        }
 )
