@@ -1,20 +1,21 @@
 ##!/usr/bin/env python
 #encoding:utf-8
 
-
 import re
 import sys
 from urllib import request
 from colored import fg, attr
 
 colors = {
-    'word'          : fg('green'),
-    'soundmark'     : fg('yellow'),
-    'definition'    : fg('blue'),
-    'example'       : fg('cyan')
+    'word': fg('red'),
+    'soundmark': fg('green'),
+    'definition': fg('yellow'),
+    'example-eng': fg('cyan'),
+    'example-chn': fg('magenta')
 }
 
 url = 'https://dict.youdao.com/w/eng/'
+
 
 def search(word):
     global url
@@ -24,35 +25,29 @@ def search(word):
 
     return response.read().decode('utf-8')
 
+
 def getSoundmark(html):
     pa = re.compile('<span class="phonetic">(.*?)</span>')
     soundmark = pa.findall(html)
 
     return soundmark
 
+
 def getDefinition(html):
-    pa_container = re.compile('<div class="trans-container">.*?<ul>(.*?)</ul>.*?</div>', re.S)
+    pa_container = re.compile(
+        '<div class="trans-container">.*?<ul>(.*?)</ul>.*?</div>', re.S)
     ma_container = pa_container.search(html)
-    str_container = ''
     definition = []
 
     if ma_container:
         str_container = ma_container.group(1)
-    else:
-        pa_wordgroup = re.compile('<p class="wordGroup">(.*?)</p>', re.S)
-        ma_wordgroup = pa_wordgroup.findall(str_container)
-        pa_span = re.compile('<(span|a).*?>([^<^>]*?)</(span|a)>', re.S)
-        for item in ma_wordgroup:
-            ma_span = pa_span.findall(item)
-            exi = ''
-            for w in ma_span:
-                if ('.' in w[1] and len(w[1]) <= 4):
-                    exi += (w[1] + ' ' * (4-len(w[1])))
-                else:
-                    exi += w[1]
-            definition.append(exi)
+        pdef = re.compile('<li>(.*?)</li>')
+        items = pdef.findall(str_container)
+        for item in items:
+            definition.append(item)
 
     return definition
+
 
 def getExamples(html):
     examples = []
@@ -75,11 +70,41 @@ def getExamples(html):
 
     return examples
 
-def main():
-    word = sys.argv[1]
 
+def outputformat(word, soundmarks, definitions, examples, color=colors):
+    outstr = ''
+
+    #word format
+    outstr += '%s {0} %s\n'.format(word) % (color['word'], attr(0))
+    #soundmarks
+    for soundmark in soundmarks:
+        outstr += '%s {0} %s'.format(soundmark) % (color['soundmark'], attr(0))
+    outstr += '\n'
+    #definitions
+    for definition in definitions:
+        outstr += '%s {0} %s\n'.format(definition) % (color['definition'],
+                                                      attr(0))
+    #examples
+    for i in range(len(examples)):
+        example = examples[i]
+        if i % 2 == 0:
+            outstr += '%s {0} %s\n'.format(example) % (color['example-eng'],
+                                                       attr(0))
+        else:
+            outstr += '%s {0} %s\n'.format(example) % (color['example-chn'],
+                                                       attr(0))
+
+    return outstr
+
+
+def main():
+    word = sys.argv[1] 
+    html = search(word)
+    soundmarks = getSoundmark(html)
+    definitions = getDefinition(html)
+    examples = getExamples(html)
+    print(outputformat(word, soundmarks, definitions, examples))
 
 
 if __name__ == '__main__':
     main()
-
