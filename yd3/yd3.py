@@ -103,7 +103,8 @@ def main():
     soundmarks = getSoundmark(html)
     definitions = getDefinition(html)
     examples = getExamples(html)
-    print(outputformat(word, soundmarks, definitions, examples))
+    outstr = outputformat(word, soundmarks, definitions, examples)
+    print(outstr)
 
 
 if __name__ == '__main__':
