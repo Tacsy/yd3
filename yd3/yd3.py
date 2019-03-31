@@ -94,7 +94,7 @@ def outputformat(word, soundmarks, definitions, examples, color=colors):
             outstr += '%s {0} %s\n'.format(example) % (color['example-chn'],
                                                        attr(0))
 
-    return outstr
+    print(outstr)
 
 
 def main():
@@ -103,8 +103,7 @@ def main():
     soundmarks = getSoundmark(html)
     definitions = getDefinition(html)
     examples = getExamples(html)
-    outstr = outputformat(word, soundmarks, definitions, examples)
-    print(outstr)
+    outputformat(word, soundmarks, definitions, examples)
 
 
 if __name__ == '__main__':
