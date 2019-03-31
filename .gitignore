@@ -4,6 +4,7 @@
 # packages
 *.egg
 *.egg-info
+dist
 
 # vscode
 .vscode
