@@ -15,7 +15,7 @@ setup(
     url = 'https://github.com/Tacsy/yd3',
     keywords = ['dictionary', 'chinese', 'command line'],    
     license = 'MIT',
-    install_requires = ['termcolor']
+    install_requires = ['termcolor'],
     entry_points={
         'console_scripts':[
                 'yd3 = yd3.yd3:main'
