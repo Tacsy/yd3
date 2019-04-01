@@ -1,5 +1,4 @@
 # yd3
-=====
 yd3 is a terminal bilingual dictionary (ENG-CNH translation) designed for heavy terminal user.
 
 ## Before installing
