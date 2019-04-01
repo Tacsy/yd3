@@ -1,7 +1,7 @@
 from setuptools import setup
 import sys, os
 
-version = '0.1.1'
+version = '0.1.2'
 
 setup(
     name = 'yd3',
@@ -15,7 +15,7 @@ setup(
     url = 'https://github.com/Tacsy/yd3',
     keywords = ['dictionary', 'chinese', 'command line'],    
     license = 'MIT',
-    install_requires = ['termcolor'],
+    install_requires = ['colored'],
     entry_points={
         'console_scripts':[
                 'yd3 = yd3.yd3:main'
